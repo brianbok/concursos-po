@@ -1,0 +1,39 @@
+Algo 2
+
+Practica 7 - Divide and Conquer
+
+Ejercicio 6
+
+Dado un arbol binario cualquiera, dise˜nar un algoritmo de dividir y conquistar que devuelva la m´axima
+distancia entre dos nodos (es decir, m´axima cantidad de ejes a atravesar). El algoritmo no debe hacer recorridos
+innecesarios sobre el ´arbol
+
+Ejercicio 7 
+La cantidad de parejas en desorden de un arreglo A[1 . . . n] es la cantidad de parejas de posiciones 1 ≤ i <
+j ≤ n tales que A[i] > A[j]. Dar un algoritmo que calcule la cantidad de parejas en desorden de un arreglo
+y cuya complejidad temporal sea estrictamente mejor que O(n) en el peor caso. Hint: Considerar hacer una
+modificacion de un algoritmo de sorting.
+
+Ej 8 ?? 
+
+El de la opeacion loca O(1) sobre la submatriz
+
+Solucion, usar modificacion del merge sort. ES HERMOSO OMG
+
+Algo 3
+
+Practica 3 - Programacion Dinamica y otras yerbas
+
+Ejercicio 9
+ Sea v = (v1, v2, . . . vn) un vector de n´umeros naturales, y sea w ∈ N. Se desea intercalar entre los elementos
+de v las operaciones + (suma), × (multiplicaci´on) y ↑ (potenciaci´on) de tal manera que al evaluar la
+expresi´on obtenida el resultado sea w. Para evaluar la expresi´on se opera de izquierda a derecha ignorando
+la precedencia de los operadores. Por ejemplo, si v = (3, 1, 5, 2, 1), y las operaciones elegidas son +, ×, ↑ y
+× (en ese orden), la expresi´on obtenida es 3+ 1×5 ↑ 2×1, que se evalua como (((3+ 1)×5) ↑ 2)×1 = 400.
+
+Solucion, desde vn "invertir las operaciones" 
+
+3.10 DP de menor numero de monedas necesarias para dar vuelto. Clasico
+
+3.11 Minimum edit distance
+

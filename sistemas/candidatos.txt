@@ -1,0 +1,8 @@
+Orga 2
+
+Practica Programacion Modo Protegido (PSO - 4)
+
+Ejercicio 10
+La funcionalidad a implementar asociada a la interrupci´on 0x77, consiste en desarrollar
+una rutina lea un registro de una tarea en particular y lo retorne a la tarea llamadora.
+
