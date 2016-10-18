@@ -3,14 +3,17 @@
 
 \mode<presentation>
 {
+
   \usetheme{Warsaw}
+  %\usetheme{Boadilla}
   \useoutertheme{infolines}
   \usecolortheme[RGB={28,13,151}]{structure}
-  %\usetheme[height=7mm]{Rochester}
+  \usetheme[height=7mm]{Rochester}
   % or ...
 
   \setbeamercovered{invisible}
   % or whatever (possibly just delete it)
+  
 }
 
 \usepackage{ upgreek }
@@ -23,21 +26,22 @@
 \usetikzlibrary{shapes}
 \tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
 
-\lstloadlanguages{C++}
-\lstnewenvironment{code}
-	{%\lstset{	numbers=none, frame=lines, basicstyle=\small\ttfamily, }%
-	 \csname lst@SetFirstLabel\endcsname}
-	{\csname lst@SaveFirstLabel\endcsname}
-\lstset{% general command to set parameter(s)
-	language=C++, basicstyle=\footnotesize\ttfamily, keywordstyle=\slshape,
-	emph=[1]{tipo,usa}, emphstyle={[1]\sffamily\bfseries},
-	morekeywords={tint,forn,forsn},
-	basewidth={0.47em,0.40em},
-	columns=fixed, fontadjust, resetmargins, xrightmargin=5pt, xleftmargin=15pt,
-	flexiblecolumns=false, tabsize=2, breaklines,	breakatwhitespace=false, extendedchars=true,
-	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=9pt,
-	frame=l, framesep=3pt,
-}
+%\lstloadlanguages{C++}
+%lstnewenvironment{code}
+%	{%\lstset{	numbers=none, frame=lines, basicstyle=\small\ttfamily, }%
+%	 \csname lst@SetFirstLabel\endcsname}
+%	{\csname lst@SaveFirstLabel\endcsname}
+%\lstset{% general command to set parameter(s)
+%	language=C++, basicstyle=\footnotesize\ttfamily, keywordstyle=\slshape,
+%	emph=[1]{tipo,usa}, emphstyle={[1]\sffamily\bfseries},
+%	morekeywords={tint,forn,forsn},
+%	basewidth={0.47em,0.40em},
+%	columns=fixed, fontadjust, resetmargins, xrightmargin=5pt, xleftmargin=15pt,
+%	flexiblecolumns=false, tabsize=2, breaklines,	breakatwhitespace=false, extendedchars=true,
+%	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=9pt,
+%	frame=l, framesep=3pt,
+%} % CAMBIADO
+
 \usepackage{multicol}
 
 \usepackage[spanish]{babel}
@@ -50,8 +54,9 @@
 \usepackage[T1]{fontenc}
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
-\usepackage{enumitem}
-\usepackage{booktabs}
+
+%\usepackage{enumitem} CAMBIADO
+%\usepackage{booktabs} CAMBIADO
 
 \newtheorem{enun}{Enunciado}
 \newtheorem{idea}{Idea importante}
@@ -121,6 +126,27 @@
 
 \end{frame}
 
+\frame{\frametitle{Presentación} 
+\begin{itemize}
+    \item Primera parte
+    \begin{itemize}
+        \item Especificación con Tipos Abstractos de Datos
+        \item Demostración de propiedades
+        \item Diseño: invariante de representación y función de abstracción
+    \end{itemize}
+    
+    \vspace{1em}
+    
+    \item Segunda Parte
+    \begin{itemize}
+        \item Complejidad Algorítmica
+        \item Diseño: elección de estructuras de datos 
+        \item Ordenamiento
+        \item \textbf{Dividir y Conquistar}
+    \end{itemize}
+\end{itemize}
+}
+
 \begin{frame}{Contexto}
     \par{Los alumnos ya tuvieron la teórica de Divide and Conquer. }
     \vspace{2em}
@@ -132,50 +158,41 @@
     la complejidad de una recursión.}
 \end{frame}
 
-\section{Prácticas de la materia} 
-\frame{\frametitle{Presentación} 
-\begin{itemize}
-    \item Primera parte
-    \begin{itemize}
-        \item Especificación con Tipos Abstractos de Datos
-        \item Demostración de propiedades
-        \item Diseño: invariante de representación y función de abstracción
-    \end{itemize}
-    \item Segunda Parte
-    \begin{itemize}
-        \item Complejidad Algorítmica
-        \item Diseño: elección de estructuras de datos 
-        \item Ordenamiento
-        \item \textbf{Dividir y Conquistar}
-    \end{itemize}
-\end{itemize}
-}
+\section{Enunciado y motivación}
 
 \begin{frame}{Enunciado}
 
 \begin{enun}
-    Suponga que se tiene un método potencia que, dada un matriz cuadrada A de orden 4 $\times$ 4 
-    y un número n, computa la matriz $A^n$ . 
-    Dada una matriz cuadrada A de orden 4 $\times$ 4 y un número natural n que es potencia de 2 
-    (i.e., n = 2 $\times$ k para algun k $\geq$ 1)
-    , desarrollar, utilizando la técnica de dividir y conquistar y el método potencia,
-un algoritmo que permita calcular: 
+    \par{Suponga que se tiene un método potencia que, dada un matriz cuadrada A de orden 4 $\times$ 4 
+    y un número n, computa la matriz $A^n$.} 
+    \vspace{0.5em}
+    \par{Dada una matriz cuadrada A de orden 4 $\times$ 4 y un número natural n que es potencia de 2, 
+    desarrollar, utilizando la técnica de dividir y conquistar, y el método potencia,
+un algoritmo que permita calcular: }
+    \vspace{0.5em}
+    
+    \begin{center}
+        $A^1$ + $A^2$ + . . . + $A^n$
+    \end{center}
 
-$A^1$ + $A^2$ + . . . + $A^n$
-
-Calcule el número de veces que el algoritmo propuesto aplica el método potencia. Si no es estrictamente menor que O(n), 
-resuelva el ejercicio nuevamente.
+    \vspace{0.5em}
+    
+    \par{Calcule el número de veces que el algoritmo propuesto aplica el método potencia. Si no es estrictamente menor que O(n), 
+resuelva el ejercicio nuevamente.}
 \end{enun}
 
 \end{frame}
 
 \begin{frame}{Motivación}
     \begin{itemize}
-        \item Vamos a usar técnicas muy recurrentes en ejercicios de Divide and Conquer
-        \item Vamos a usar el Teorema Maestro e identificar en que caso nos encontramos
-        \item Introducimos otros problemas conocidos
+        \item Queremos dar técnicas y formas de pensar ejercicios de Divide and Conquer
+        \item Mostrar que Divide and Conquer es un tema amplio y hay mas que \quotes{arboles y arreglos}
+        \item Vamos a usar el Teorema Maestro
+        \item Muchas formas de resolverlo. Hacia el finaĺ, introducimos problemas conocidos. 
     \end{itemize}
 \end{frame}
+
+\section{Resolución}
 
 \begin{frame}{¡Al ataque!}
     \par{Primer idea: \pause Buscar la fórmula de serie geométrica. \pause No parece servir para \alert{matrices}}
@@ -252,8 +269,8 @@ resuelva el ejercicio nuevamente.
 ¿Complejidad (en función de operaciones potencia)?: 
 \pause
  \[ P(n) =  \begin{cases} 
-    \mathcal{O}(1) & n = 1 \\
-    P(\frac{n}{2}) + \mathcal{O}(1) & n > 1 \\ 
+    0 & n = 1 \\
+    P(\frac{n}{2}) + 1 & n > 1 \\ 
    \end{cases}
  \]
 
@@ -262,13 +279,15 @@ resuelva el ejercicio nuevamente.
 
 \end{frame}
 
+\section{Complejidad}
+
 \begin{frame}{El Teorema Maestro}
 \[ P(n) =  \begin{cases} 
-    \Theta(1) & n = 1 \\
-    P(\frac{n}{2}) + \Theta(1) & n > 1 \\ 
+    0 & n = 1 \\
+    P(\frac{n}{2}) + 1 & n > 1 \\ 
    \end{cases}
  \]
- 
+
  ¿Podemos usar el Teorema Maestro? Veamos sus casos:
  
  \pause
@@ -279,18 +298,24 @@ resuelva el ejercicio nuevamente.
  
  \vspace{0.5em}
  
+
  \begin{enumerate}
-    \item $f(n) = $  $\mathcal{O}$(n \textsuperscript{$log_b{a} $ - \(\epsilon\)  })  para algun \(\epsilon\) > 0 $\implies$ $P(n) =$ $\Theta$(n \textsuperscript{$log_b{a} $ })
-    \item $f(n) = $  $\Theta$(n \textsuperscript{$log_b{a} $ }) $\implies$ $P(n) =$ $\Theta$(n \textsuperscript{$log_b{a} $ } lg n)
-    \item $f(n) = $  $\Omega$(n \textsuperscript{$log_b{a} $ + \(\epsilon\) }) para algun \(\epsilon\) > 0, $a f(n/b) \leq c f(n)$ para algún c > 1 y todo n $\geq$ $n_0$ 
+ 
+ \setbeamertemplate{enumerate items}[circle]
+    \item $f(n) \in $  $\mathcal{O}$(n \textsuperscript{$log_b{a} $ - \(\epsilon\)  })  para algun \(\epsilon\) > 0 $\implies$ $P(n) =$ $\Theta$(n \textsuperscript{$log_b{a} $ })
+    \item $f(n) \in $  $\Theta$(n \textsuperscript{$log_b{a} $ }) $\implies$ $P(n) =$ $\Theta$(n \textsuperscript{$log_b{a} $ } lg n)
+    \item $f(n) \in $  $\Omega$(n \textsuperscript{$log_b{a} $ + \(\epsilon\) }) para algun \(\epsilon\) > 0, $a f(n/b) \leq c f(n)$ para algún c > 1 y todo n $\geq$ $n_0$ 
     $\implies$ $P(n) =$ $\Theta(f(n))$
  \end{enumerate}
 
 \pause
-\par{b = 2, a = 1, $log_b{a} = 0$ $\implies$ Estamos en el segundo caso. }
-\par{$P(n) = \Theta$(lg n)}   
+\par{b = 2, a = 1, $log_b{a} = 0$, f(n) = 1 $\in$ $\Theta(1)$ $\implies$ }
+\par{Estamos en el segundo caso. $P(n) = \Theta$(lg n)}
+   
 
 \end{frame}
+
+\section{Ejercicio adicional}
 
 \begin{frame}{Ejercicio Adicional}
     \par{Supongamos que la multiplicación de matrices es $\mathcal{O}(1)$}
@@ -314,7 +339,11 @@ resuelva el ejercicio nuevamente.
 \end{frame}
 
 \begin{frame}
-    ¿Preguntas?
+    \huge{¿Preguntas?}
+    \begin{center}
+        \includegraphics[scale=0.4]{img/question-mark.jpg}
+    \end{center}
+    \large{¡Muchas gracias!}
 \end{frame}
 
 \end{document}
