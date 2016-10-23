@@ -99,6 +99,9 @@
 
 %\beamerdefaultoverlayspecification{<+->}
 
+\algblockdefx[Semaforo]{Wait}{Signal}
+    [1][Fruta]{#1 .wait()}
+    [1][Fruta]{#1 .signal()}
 
 \begin{document}
 \pgfdeclarelayer{background}
@@ -120,7 +123,7 @@
     \begin{itemize}
 	\item Materia :  \emph{Sistemas Operativos}
 	\vspace{2em}
-	\item Práctica : \emph{Tercera práctica: Sincronización}
+	\item Práctica : \emph{Tercera práctica, Sincronización}
 
     \end{itemize}
 
@@ -173,7 +176,7 @@ todos los $a_i$}.
 \end{frame}
 
 \section{Resolución}
-\begin{frame}
+\begin{frame}{Aproximándonos}
     Primer idea: \pause Turnos! 
     \pause 
     \newline $a_1$ hasta $a_n$, luego $b_1$ hasta $b_n$.
@@ -219,12 +222,86 @@ todos los $a_i$}.
     Segunda idea: Contar cuantos ejecutaron a(i)
 \end{frame}
 
-\begin{frame}{Que vamos a necesitar}
+\begin{frame}{¿Qué vamos a necesitar?}
     \begin{enumerate}
+        \item La cantidad de procesos N 
         \item contador = 0
         \item mutex\_contador = Mutex(1)
         \item sem\_barrera = Semaforo(0)
     \end{enumerate}
+\end{frame}
+
+\begin{frame}{Implementando}
+    \begin{algorithmic}
+        \Function{P}{i}
+            \State a(i)
+            
+            \vspace{1em}
+            \uncover<2->{
+            \Wait[mutex\_contador]
+                \State contador++
+                \If {contador == N}
+                    \uncover<3->{
+                        \State sem\_barrera.signal()
+                    }
+                    
+                \EndIf
+            \Signal[mutex\_contador]
+            }
+            
+            \vspace{1em}
+            
+            \State sem\_barrera.wait()
+            
+            \vspace{1em}
+            
+            \State b(i)
+            
+        \EndFunction
+        
+        
+    \end{algorithmic}
+    
+    \uncover<4>{
+        \Large{Problema:}
+        \pause
+        \Large{Muchos procesos esperando, pero envíamos un solo signal}
+    }
+
+\end{frame}
+
+\begin{frame}{Terminando la solución}
+    \begin{algorithmic}
+        \Function{P}{i}
+            \State a(i)
+            
+            \vspace{1em}
+            \Wait[mutex\_contador]
+                \State contador++
+                \If {contador == N}
+                    \uncover<2>{
+                    
+                        \For{i = 1 to N}
+                            \State sem\_barrera.signal()
+                        \EndFor
+                    }
+                    
+                \EndIf
+            \Signal[mutex\_contador]
+            
+            \vspace{1em}
+            
+            \State sem\_barrera.wait()
+            
+            \vspace{1em}
+            
+            \State b(i)
+            
+        \EndFunction
+        
+        
+    \end{algorithmic}
+
 \end{frame}
 
 

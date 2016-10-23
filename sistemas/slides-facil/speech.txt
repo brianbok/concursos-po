@@ -1,0 +1,99 @@
+Slide Inicial:
+Buenas tardes jurado, voy a empezar la prueba de oposicion 
+para el area de sistemas.
+
+Slide content table:
+Primero, veamos como van a estar organizadas las diapositivas:
+Inicialmente la introducción
+
+Slide materia:
+El ejercicio que elegí es parte de la materia Sistemas Operativos,
+que se cursa, según el plan de estudios en el primer cuatrimestre del tercer
+año de la carrera.
+Además corresponde a la Practica 3, del tema Sincronización.
+
+Slide contexto:
+Un poco de contexto. 
+Los alumnos ya tuvieron la doble teórica de sincronización.
+Ya conocen las ideas clásicas del tema y las primitivas de semáforos.
+Ahora tienen que ejercitar estas ideas para resolver ejercicos más complejos.
+
+Slide Enunciado:
+Suponga que se tienen N procesos Pi, cada uno de los cuales ejecuta 
+un conjunto de sentencias ai y bi. Se los quiere sincronizar de 
+manera tal que los bi se ejecuten despues de que se hayan
+ejecutado todos los ai.
+A priori los procesos tienen esta forma. Ejecutan dos bloques de 
+instrucciones a, y b. Ahora queremos dar una sincronización adecuada.
+
+Slide Motivacion:
+Ya introducido el ejercicio, ahora quiero contar un poco por que lo elegi.
+Este es un PATRÓN fundamental y clásico.
+Además aparece como subproblema de otros ejercicios, 
+incluyendo ejercicios de parcial de esta materia.
+Es un muy buen ejemplo para entender los conceptos claves
+de sincronización, y fijarlos en nuestra mente.
+
+Slide aproximandonos:
+Vamos a empezar con la resolución del problema.
+Veamos cual es la primer idea que podemos tener. 
+Pausa.
+Ustedes ya vieron en la teórica como garantizar el 
+cumplimiento de "Turnos" entre los procesos.
+Pausa
+Podemos hacer que primero se ejecuten, en orden, los
+bloques a1 hasta a_n. Y que despues del a_n, se ejecuten 
+en orden los bloques b1 hasta bn. Es una aplicación directa de
+este "problema de los turnos".
+Pausa 
+Aqui podemos la parte principal de una implementación de los turnos
+para este problema.
+
+En este punto, debemos asegurar que los alumnos comprenden 
+el pseudocodigo que planteamos, y por que hace lo que dijimos.
+Y ahora, debemos plantearles a los alumnos si ven algun problema 
+con esta solucion. Resuelve el problema correctamente?
+
+Slide Problemas:
+La respuesta a esta interrogante es que NO!
+Esta solucion no es valida. ¿Por que?
+Porque si bien queremos sincronizar los procesos haciendo
+que los a ejecuten antes que los b, queremos la 
+mayor concurrencia posible!
+Es importante este punto para la materia, porque tratamos
+de dar soluciones que aprovechen de la mejor forma 
+la concurrencia del entorno en el cual estamos ejecutando.
+En este caso estamos restringiendo los ai a un orden especifico,
+con lo cual estos no pueden ejecutarse concurrentemente.
+Y lo mismo vale para los bi.
+En cierto sentido es como cuando en Algoritmos I SOBRESPECIFICABAMOS
+una solucion, restringiendo demás las posibles implementaciones de 
+un problema.
+PAUSA
+En este punto nos detenemos e incentivamos a los alumnos a darnos
+soluciones alternativas que no tengan este problema y resuelvan 
+el problema. Luego de un guiar a los alumnos con sus
+respuestas, proseguimos a contar una posible implementacion.
+Vamos por una segunda idea: Queremos contar cuantos procesos 
+ejecutaron el bloque de instrucciones A.
+Vamos a querer que luego de contar que N procesos ya pasaron
+por el bloque A, podemos ejecutar los bloques B.
+Con esta idea en la cabeza pasamos a ver QUE estructuras y variables
+globales vamos a necesitar.
+
+Slide NECESITAR:
+Vamos a necesitar la cantidad de procesos N en una variable global
+N.
+Un contador, que cuenta la cantidad de procesos que ejeuctaron 
+el bloque A.
+Un mutex sobre esta variable, para asegurarnos que no tengamos
+condiciones de carrera.
+Un semaforo, para asegurar el funcionamiento antes mencionado,
+que deje pasar a los procesos luego de la ejecucion de los bloques A.
+
+Slide Implementando:
+
+
+
+
+
