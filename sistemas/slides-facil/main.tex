@@ -63,7 +63,7 @@
 
 
 \title[Prueba de oposición] % (optional, use only with long paper titles)
-{Prueba de oposición - Algoritmos 2016}
+{Prueba de oposición - Sistemas 2016}
 
 \author[Brian Bokser] % (optional, use only with lots of authors)
 {Brian Bokser}
@@ -110,10 +110,9 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Contenidos}
-  \tableofcontents
-  % You might wish to add the option [pausesections]
-\end{frame}
+%\begin{frame}{Contenidos}
+  %\tableofcontents
+%\end{frame}
 
 
 
@@ -123,19 +122,24 @@
     \begin{itemize}
 	\item Materia :  \emph{Sistemas Operativos}
 	\vspace{2em}
-	\item Práctica : \emph{Tercera práctica, Sincronización}
+	\item Práctica : \emph{Sincronización}
 
     \end{itemize}
 
 \end{frame}
 
 \begin{frame}{Contexto}
-    \par{Los alumnos ya tuvieron las dos teóricas de Sincronización }
-    \vspace{2em}
-	
-    \par{Conocen las ideas clásicas, ahora tienen que ejercitarlas.}
-    \vspace{2em}
-	
+    \begin{enumerate}
+        
+        \item{Los alumnos ya tuvieron la doble teórica de Sincronización. }
+        \vspace{2em}
+        \item{Manejan las primitivas de Semáforos, Mutex y variables atómicas.}
+        \vspace{2em}
+        \item{Vieron algunos problemas y patrones básicos.} 
+        \vspace{2em}
+        \item{Conocen las condiciones de Coffman.}
+        
+    \end{enumerate}
 \end{frame}
 
 \section{Enunciado y motivación}
@@ -167,11 +171,24 @@ todos los $a_i$}.
 
 \begin{frame}{Motivación}
     \begin{itemize}
-        \item Es conocido como Barrera o Rendezvous, y es fundamental.
-        \vspace{1em}
-        \item Aparece como subproblema de otros ejercicios.
-        \vspace{1em}
-        \item Es un buen ejemplo para entender los conceptos de sincronización. 
+    \item Me parece un problema interesante porque:
+        \begin{enumerate}
+            \vspace{1em}
+            \item Es un patrón clásico, conocido como \textbf{Barrera}.
+            \vspace{1em}
+            \item Aparece como subproblema de otros ejercicios.
+        \end{enumerate}
+    \vspace{2em}
+    \item En el problema vamos a trabajar:
+        \begin{enumerate}
+            \vspace{1em}
+            \item Mutexes.
+            \vspace{1em}
+            \item Semáforos.
+            \vspace{1em}
+            \item Maximizar el grado de concurrencia.
+        \end{enumerate}
+        
     \end{itemize}
 \end{frame}
 
@@ -180,7 +197,7 @@ todos los $a_i$}.
     Primer idea: \pause Turnos! 
     \pause 
     \newline $a_1$ hasta $a_n$, luego $b_1$ hasta $b_n$.
-    Aplicación directa del \quotes{problema de los turnos}
+    Aplicación directa del \quotes{problema de los turnos}.
     
     \vspace{2em}
     
@@ -213,21 +230,21 @@ todos los $a_i$}.
 
 \begin{frame}{Problemas}
     Problema: Queremos la mayor \textbf{Concurrencia} posible. 
-    No queremos garantizar un orden de los $a_i$ ni de los $b_i$ 
+    No queremos garantizar un orden de los $a_i$ ni de los $b_i$. 
     
     \vspace{2em}
     
     \pause
     
-    Segunda idea: Contar cuantos ejecutaron a(i)
+    Segunda idea: Contar cuantos ejecutaron a(i).
 \end{frame}
 
 \begin{frame}{¿Qué vamos a necesitar?}
     \begin{enumerate}
-        \item La cantidad de procesos N 
-        \item contador = 0
-        \item mutex\_contador = Mutex(1)
-        \item sem\_barrera = Semaforo(0)
+        \item La cantidad de procesos N.
+        \item contador = 0.
+        \item mutex\_contador = Mutex(1).
+        \item sem\_barrera = Semaforo(0).
     \end{enumerate}
 \end{frame}
 
@@ -265,7 +282,7 @@ todos los $a_i$}.
     \uncover<4>{
         \Large{Problema:}
         \pause
-        \Large{Muchos procesos esperando, pero envíamos un solo signal}
+        \Large{Muchos procesos esperando, pero envíamos un solo signal.}
     }
 
 \end{frame}

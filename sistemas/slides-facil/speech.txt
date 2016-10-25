@@ -2,37 +2,47 @@ Slide Inicial:
 Buenas tardes jurado, voy a empezar la prueba de oposicion 
 para el area de sistemas.
 
-Slide content table:
-Primero, veamos como van a estar organizadas las diapositivas:
-Inicialmente la introducción
-
 Slide materia:
 El ejercicio que elegí es parte de la materia Sistemas Operativos,
 que se cursa, según el plan de estudios en el primer cuatrimestre del tercer
 año de la carrera.
-Además corresponde a la Practica 3, del tema Sincronización.
+Además corresponde a la Practica de Sincronización.
 
 Slide contexto:
 Un poco de contexto. 
 Los alumnos ya tuvieron la doble teórica de sincronización.
-Ya conocen las ideas clásicas del tema y las primitivas de semáforos.
+En estas, conocieron los conceptos de sincronización, 
+las primitvas de semáforos, variables atómicas y sobre grado 
+de concurrencia.
+Vieron también algunos problemas y patrones básicos, entre ellos
+la forma de garantizar "Turnos" entre los procesos.
+Conocen la definición de deadlock, y las condiciones necesarias de Coffman.
 Ahora tienen que ejercitar estas ideas para resolver ejercicos más complejos.
 
 Slide Enunciado:
+Voy a leer el enunciado del ejercicio que vamos a resolver.
 Suponga que se tienen N procesos Pi, cada uno de los cuales ejecuta 
 un conjunto de sentencias ai y bi. Se los quiere sincronizar de 
 manera tal que los bi se ejecuten despues de que se hayan
 ejecutado todos los ai.
-A priori los procesos tienen esta forma. Ejecutan dos bloques de 
+A priori los procesos tinenen esta forma. Ejecutan dos bloques de 
 instrucciones a, y b. Ahora queremos dar una sincronización adecuada.
 
 Slide Motivacion:
-Ya introducido el ejercicio, ahora quiero contar un poco por que lo elegi.
-Este es un PATRÓN fundamental y clásico.
-Además aparece como subproblema de otros ejercicios, 
-incluyendo ejercicios de parcial de esta materia.
-Es un muy buen ejemplo para entender los conceptos claves
-de sincronización, y fijarlos en nuestra mente.
+Ya introducido el ejercicio, quiero contar un poco por que lo elegi.
+Me parece que este ejercicio es interesante porque:
+Es un patrón clasico, conocido como Barrera.
+Aparece como subproblema de otros problemas mas complejos.
+En el tema de sincronización hay muchos patrones que se repiten y 
+combinan que nos ayudan a resolver problemas.
+
+En este ejercicio vamos a trabajar los conceptos 
+de sincronizacion, entre ellos:
+Mutexes
+Semaforos
+Maximizar el grado de concurrencia dentro de las restricciones del problema. 
+Es decir, aprovechar que corremos multiples procesos, y no serializar una solucion.
+Así vamos a poder fijar los contenidos aprendidos en la teorica, aplicandolos.
 
 Slide aproximandonos:
 Vamos a empezar con la resolución del problema.
@@ -46,8 +56,22 @@ bloques a1 hasta a_n. Y que despues del a_n, se ejecuten
 en orden los bloques b1 hasta bn. Es una aplicación directa de
 este "problema de los turnos".
 Pausa 
-Aqui podemos la parte principal de una implementación de los turnos
-para este problema.
+Aqui podemos ver como sería la parte principal de una implementación
+de esta solución.
+
+Tenemos una función que encapsula un proceso.
+
+espera a que el proceso anterior mande un signal.
+Ejecuta el bloque A correspondiente
+Envia un signal al siguiente proceso.
+Espera que el anterior envie un signal.
+Ejecuta el bloque B correspondiente
+Envia un signal al siguiente proceso.
+
+Notar que por simplicidad omitimos algunos detalles. 
+En el proceso n, hacer un signal a B1.
+Dejamos esto como ejercicio para que terminen los detalles 
+y lo consulten si tienen dudas.
 
 En este punto, debemos asegurar que los alumnos comprenden 
 el pseudocodigo que planteamos, y por que hace lo que dijimos.
@@ -60,6 +84,7 @@ Esta solucion no es valida. ¿Por que?
 Porque si bien queremos sincronizar los procesos haciendo
 que los a ejecuten antes que los b, queremos la 
 mayor concurrencia posible!
+No queremos garantizar un orden para los ai ni los bi.
 Es importante este punto para la materia, porque tratamos
 de dar soluciones que aprovechen de la mejor forma 
 la concurrencia del entorno en el cual estamos ejecutando.
@@ -69,22 +94,25 @@ Y lo mismo vale para los bi.
 En cierto sentido es como cuando en Algoritmos I SOBRESPECIFICABAMOS
 una solucion, restringiendo demás las posibles implementaciones de 
 un problema.
+Idealmente, queremos que si tenemos n cores en una computadora, 
+los n bloques A puedan ejecutarse casi simultaneamente.
 PAUSA
 En este punto nos detenemos e incentivamos a los alumnos a darnos
-soluciones alternativas que no tengan este problema y resuelvan 
+soluciones alternativas que resuelvan 
 el problema. Luego de un guiar a los alumnos con sus
 respuestas, proseguimos a contar una posible implementacion.
 Vamos por una segunda idea: Queremos contar cuantos procesos 
 ejecutaron el bloque de instrucciones A.
-Vamos a querer que luego de contar que N procesos ya pasaron
-por el bloque A, podemos ejecutar los bloques B.
+Vamos a querer un contador de procesos que ya pasaron
+por el bloque A. Cuando este llegue a N, podemos ejecutar los 
+bloques B.
 Con esta idea en la cabeza pasamos a ver QUE estructuras y variables
 globales vamos a necesitar.
 
 Slide NECESITAR:
 Vamos a necesitar la cantidad de procesos N en una variable global
 N.
-Un contador, que cuenta la cantidad de procesos que ejeuctaron 
+Un contador, que cuenta la cantidad de procesos que ejecutaron 
 el bloque A.
 Un mutex sobre esta variable, para asegurarnos que no tengamos
 condiciones de carrera.
@@ -92,8 +120,46 @@ Un semaforo, para asegurar el funcionamiento antes mencionado,
 que deje pasar a los procesos luego de la ejecucion de los bloques A.
 
 Slide Implementando:
+Sigamos con la implementacion. Como dijimos antes, vamos a tener
+las sentencias a, una espera en el semaforo y luego las sentencias b.
+Pero antes de eso deberiamos hacer algo mas.
+Tenemos que incrementar el contador en uno. Para hacer esto,
+debemos tener asignado el mutex sobre esta variable.
+Si el contador llega a N, tenemos que hacer que 
+los procesos puedan avanzar. ¿Que podemos hacer?
 
+Pareciera que basta con poner un signal sobre el semaforo. 
+De vuelta, ¿hay algun problema con esto? Debemos hacer que los
+alumnos opinen y propongan.
+La respuesta es que hay un problema, porque si hay mas de un proceso,
+esto solo hace que UNO pase, mandando UN signal al semaforo.
+Los demas procesos, van a seguir trabados en el wait del semaforo.
+¿Que hacemos con esto?
 
+Slide Terminando la solucion:
+Debemos terminar la solucion, cambiando lo que hacemos
+cuando el contador llega a N. 
+Queremos que todos los procesos puedan pasar el semaforo
+de barrera. 
+Para esto podemos hacer N signals!
+Mostrar Los N signals.
+Esto lo podemos hacer mediante un for, de manera que los N signals
+se ejecutan de forma "independiente".
+Otra forma sería usar la sintaxis de la catedra,
+sem_barrera.signal(n) que hace n signals de forma ATOMICA. La
+atomicidad de esta operacion podria ser importante, pero en este
+caso no lo es, asi que nos quedamos con el simple for.
+Esta solucion hace lo que queriamos, cuenta que lleguen los 
+N procesos y recien ahi permite que todos los demas avancen 
+al bloque B. Y permitimos toda la concurrencia posible en A y B ya
+que no hay mutex, ni semaforo que garantice un orden.
+Notar tambien que no incurrimos en Deadlock, ya que no se cumplen 
+todas las condiciones de Coffman nnecesarias para
+un Deadlock. Dejo como ejercicio comprobar que condiciones se cumplen
+y cuales NO, y pueden consultarmelo si no se les ocurre.
+
+Slides:
+Esto es todo. ¿Alguna pregunta?
 
 
 
