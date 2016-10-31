@@ -1,0 +1,225 @@
+Slide Primera:
+Hola, Buenos dias, voy a dar la prueba de oposicion para el area de 
+Algoritmos 2016
+
+Slide introduccion:
+El ejercicio que elegi se enmarca en la materia Algoritmos y 
+Estructuras de Datos II, en la practica de "Dividir y Conquistar"
+
+Slide Contexto:
+Ahora voy a dar un poco de contexto de la materia, para saber 
+que cosas los alumnos ya conocen.
+
+Los alumnos tienen claros los conceptos de complejidad, vistos 
+en la teórica. Ya pasaron la practica de Sorting, en la cual
+usaron fuertemente estos conceptos.
+
+Conocen el teorema maestro, y pueden usar alguno de sus casos
+para determinar la complejidad de una recursión.
+
+Ya tuvieron la clase de Divide and Conquer en la teórica.
+
+Ya conocen las ideas cĺásicas de Divide and Conquer. 
+Conocen varios algoritmos que utilizan la tecnica y saben 
+identificarla
+Ahora tienen que ejercitar estas ideas, aplicandolas en 
+ejercicios nuevos. 
+
+Voy a pasar a leer el ejercicio que elegi.
+
+Slide Enunciado:
+	Suponga que se tiene un método potencia que, dada un matriz 
+	cuadrada A de orden 4 x 4 y un número n, 
+	computa la matriz A a la n. 
+    Dada una matriz cuadrada A de este orden y un número natural 
+    n que es potencia de 2, 
+    desarrollar, utilizando la técnica de dividir y conquistar, 
+    y el método potencia, un algoritmo que permita calcular:
+    
+        A^1 + A^2 + . . . + A^n
+
+    Calcule el número de veces que el algoritmo propuesto 
+    aplica el método potencia. Si no es estrictamente menor que 
+    O(n), resuelva el ejercicio nuevamente.
+
+	Aqui deberiamos chequear que todos los alumnos comprendieron 
+	lo pedido por el enunciado. Especificamente, la restriccion
+	de la cantidad de llamados a potencia, que puede resultar 
+	confusa. Se debe notar que la complejidad pedida es 
+	en funcion de los llamados a potencia y no a 
+	operaciones elementales, como es habitual.
+	
+	Voy a anotar que debemos calcular, y la funcion potencia 
+	con la cual contamos.
+
+Slide Motivación:
+	Ya hablamos de cual es el enunciado, ahora me gustaria contar 
+	un poco mas de por que lo elegi.
+	Este ejercicio me parece interesante porque:
+		
+		Primero, nos permite mostrar Divide and Conquer es un
+		tema amplio y hay mas que “arboles y arreglos”.
+		La tecnica se aplica a amplia variedad de problemas. 
+		Si bien son mas comunes en la practica los 
+		ejercicios sobre arreglos, pueden aparecer otras estructuras.
+		
+		Ademas, del ejercicio surgen otras ideas y ejercicios
+		relacionados.
+		Tenemos otras formas de calcular lo pedido, que en el 
+		contexto de una clase podemos mencionar y trabajar
+		
+	En el ejercicio vamos a trabajar:
+		Formas de pensar los ejercicios de D&Q. Ya que algunos 
+		ejercicios de esta practica requieren de nuestra 
+		creatividad e ingenio para lograr aplicar la tecnica
+		Esto es lo 
+		mas dificil de la tecnica de D&Q.
+		
+		Por otro lado, hacia el final del ejercicio, vamos a utilizar
+		conceptos de complejidad y el teorema maestro. 
+		Estos conceptos van a ser fundamentales para 
+		entender por que nuestra solucion es valida.
+		
+	Dicho esto, pasamos a la resolucion del ejercicio.
+	
+Slide Al Ataque:
+	Siempre que tenemos un problema, intentamos pensar primero 
+	las alternativas mas faciles. 
+	
+	Asi que, una primer idea seria la siguiente: 
+	El algoritmo ingenuo. 
+	Evaluar cada (A a la i), utilizando la funcion de potencia.
+	El problema es que esto utilizaria n llamados a potencia,
+	cuando el problema nos pedia que utilicemos una cantidad
+	estrictamente menor que O(n).
+	
+	Asi que tenemos que pensar una alternativa. 
+	Estamos buscando algo SUBLINEAL. 
+	
+	Es decir que  evaluar cada uno de los terminos de la suma 
+	individualmente no parece un camino viable.
+	Ahora, quiero contar como buscar la solucion de un problema 
+	con divide and conquer, en general. Esto es algo muy 
+	importante ya que la idea
+	suele ser mucho mas dificil que la implementacion 
+	en estos ejercicios.
+	
+	Para resolver un problema de D&Q, queremos un SUBPROBLEMA,
+	que podamos resolver recursivamente y nos sirva para 
+	dar la solucion al problema original.
+	
+	Aqui deberiamos chequear que los alumnos comprenden el 
+	concepto de subproblema en D&Q, mediante ejemplos en algoritmos
+	que utilicen la tecnica y ya conocen.
+	Y ahora si, vamos a pensar en estos terminos para 
+	resolver nuestro problema.
+	
+Slide buscando el subproblema...
+	Queremos encontrar alguna propiedad que nos ayude a dar 
+	esta formulación en base a subproblemas. 
+	
+	¿Que subproblema nos va a servir?
+	
+	En este punto deberiamos ver si los alumnos proponen alguna 
+	solucion, y guiarlos en sus posibles errores.
+	
+	Finalmente, mostramos una idea que resuelve el ejercicio:
+	La propiedad que nos va a servir es que, la segunda mitad 
+	de la suma, la de la derecha, se puede expresar 
+	de la siguiente forma.
+	
+	La primer mitad, multiplicada por A a la n/2.
+	De esta forma, podemos expresar la suma entera como, 
+	la primer mitad, mas la primer mitad por A a la n/2.
+	Asi que, el subproblema que vamos tener que resolver 
+	es la primer mitad de la suma. Ademas, podemos computar la 
+	suma porque tenemos la funcion potencia para evaluar 
+	A a la n / 2.
+	
+	Tenemos que chequear ahora que los alumnos comprendieron 
+	la idea, y continuar.
+
+Slide Estamos resolviendo:
+	Estamos haciendo menos operaciones de potencia. 
+	¿Pero cuantas? 
+	Se puede ver que, a priori, no estamos utilizando 
+	la funcion de potencia tantas veces como antes. 
+	
+	Pero tenemos que comprobar si hacemos menos que O(n) operaciones
+	como pide el enunciado.
+	
+	Vamos a escribir el pseudocodigo, y luego comprobar que 
+	hacemos menos que O(n) operaciones, midiendo la complejidad 
+	en base a estas llamadas. 
+	
+	Es importante notar, 
+	que vamos a medir la complejidad de una forma no habitual.
+
+Slide pseudocodigo:
+	Para resolver el problema definimos una funcion, suma_geometrica, 
+	que devuelve la suma pedida. 
+	Tiene como parametros la matriz A, 
+	y el numero N.
+	Como caso base, tenemos que si n es 1, devolvemos directamente 
+	la matriz A, ya que la sumatoria hasta 1 es simplemente A
+	
+	En caso contrario, calculamos la subsuma, la sumatoria hasta n/2
+	Usamos la funcion potencia y tenemos A a la n sobre 2. 
+	Y luego, como vimos antes, calculamos la suma completa, 
+	usando subsuma y la potencia.
+	
+	Luego de convencernos de que el pseudocodigo es correcto, 
+	calculamos la complejidad en terminos de llamados a la 
+	funcion potencia.
+	
+	Escribimos una funcion de recurrencia con la siguiente forma:
+	
+	P(n) son los llamados a potencia de nuestra solucion 
+	para cada n. 
+	Podemos ver que para n = 1, tenemos 0 llamados a la funcion 
+	potencia.
+	Luego, para n mayor a 1, tenemos la cantidad de llamados con 
+	n sobre 2, mas 1 llamado, por la estructura recursiva de la
+	solucion.
+	
+	Asi que ahora tenemos que resolver esta ecuacion de recurrencia.
+	
+Slide Teorema maestro:
+	Nos preguntamos, ante esta recurrencia si podemos usar 
+	el teorema maestro. 
+	
+	Para esto podemos analizar los casos del teorema, 
+	que los alumnos ya conocen, y ver si corresponde con 
+	alguno de ellos.
+	
+	La forma generica del teorema maestro es 
+	P(n) = a por P(n/b) + f(n)
+	
+	En este punto deberiamos hacer un analisis detallado 
+	con los alumnos para ver en cada caso si 
+	las hipotesis del teorema aplican
+	o no a nuestra ecuacion de recurrencia.
+	
+	Luego de esto, determinamos que estamos en el segundo caso. 
+	Como b = 2, y a = 1, n a la log b a  es n a la 0, que es 1. 
+	En nuestra funcion f(n) es tita de 1.
+	Asi que nuestra solucion es Tita de Log n.
+	
+	Como el problema nos pedia que la cantidad de 
+	llamados a potencia sea estrictamente menor que O(n), 
+	resolvimos el problema.
+	
+Slide ej adicional:
+	Como ejercicio adicional, quiero que tomemos la 
+	complejidad de la multiplicacion de matrices como O(1).
+	
+	Ahora dejamos de contar solo las funciones potencia.
+	
+	¿Como es la complejidad en funcion de operaciones elementales
+	de esta solucion? 
+	
+	¿Como varia esta, segun las implementaciones de potencia?
+	
+Slide preguntas:
+	¿Alguna pregunta?
+	Muchas gracias
