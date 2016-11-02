@@ -49,6 +49,8 @@ Slide Enunciado:
 	en funcion de los llamados a potencia y no a 
 	operaciones elementales, como es habitual.
 	
+	Por otro lado, n es potencia de 2, lo cual tambien es muy importante.
+	
 	Voy a anotar que debemos calcular, y la funcion potencia 
 	con la cual contamos.
 
