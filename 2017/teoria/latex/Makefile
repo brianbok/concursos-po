@@ -3,7 +3,7 @@
 LATEX := pdflatex
 LATEXFLAGS := 
 
-PDFS := dinamica.pdf
+PDFS := teoria.pdf
 
 all: $(PDFS)
 
