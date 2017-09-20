@@ -1,0 +1,333 @@
+\documentclass[pdf]{beamer}
+\newcommand{\quotes}[1]{``#1''}
+
+\mode<presentation>
+{
+
+  \usetheme{Warsaw}
+  %\usetheme{Boadilla}
+  \useoutertheme{infolines}
+  \usecolortheme[RGB={28,13,151}]{structure}
+  \usetheme[height=7mm]{Rochester}
+  % or ...
+
+  \setbeamercovered{invisible}
+  % or whatever (possibly just delete it)
+  
+}
+
+\usepackage{verbatim} 
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+%\lstloadlanguages{C++}
+%lstnewenvironment{code}
+%	{%\lstset{	numbers=none, frame=lines, basicstyle=\small\ttfamily, }%
+%	 \csname lst@SetFirstLabel\endcsname}
+%	{\csname lst@SaveFirstLabel\endcsname}
+%\lstset{% general command to set parameter(s)
+%	language=C++, basicstyle=\footnotesize\ttfamily, keywordstyle=\slshape,
+%	emph=[1]{tipo,usa}, emphstyle={[1]\sffamily\bfseries},
+%	morekeywords={tint,forn,forsn},
+%	basewidth={0.47em,0.40em},
+%	columns=fixed, fontadjust, resetmargins, xrightmargin=5pt, xleftmargin=15pt,
+%	flexiblecolumns=false, tabsize=2, breaklines,	breakatwhitespace=false, extendedchars=true,
+%	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=9pt,
+%	frame=l, framesep=3pt,
+%} % CAMBIADO
+
+\usepackage{multicol}
+
+\usepackage[spanish]{babel}
+% or whatever
+
+\usepackage[utf8]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+%\usepackage{enumitem} CAMBIADO
+%\usepackage{booktabs} CAMBIADO
+
+\newtheorem{enun}{Enunciado}
+\newtheorem{idea}{Idea importante}
+
+
+\title[Prueba de oposición] % (optional, use only with long paper titles)
+{Prueba de oposición - Sistemas}
+
+\author[Brian Bokser] % (optional, use only with lots of authors)
+{Brian Bokser}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+\institute[UBA-FCEN] % (optional, but mostly needed)
+{
+  Facultad de Ciencias Exactas y Naturales\\
+  Universidad de Buenos Aires
+}
+
+
+% Ac� se puede insertar el logo de la UBA
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+
+  \begin{frame}<beamer>{Contenidos}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+	
+}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\algblockdefx[Semaforo]{Wait}{Signal}
+    [1][Fruta]{#1 .wait()}
+    [1][Fruta]{#1 .signal()}
+
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%\begin{frame}{Contenidos}
+  %\tableofcontents
+%\end{frame}
+
+
+
+\section{Introducci\'on}
+
+\begin{frame}{Introducci\'on}
+    \begin{itemize}
+	\item Materia :  \emph{Sistemas Operativos}
+	\vspace{2em}
+	\item Práctica : \emph{Sincronización}
+
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Contexto}
+    \begin{enumerate}
+        
+        \item{Los alumnos ya tuvieron las dos teóricas de Sincronización. }
+        \vspace{2em}
+        \item{Manejan las primitivas de Semáforos, Mutex y variables atómicas.}
+        \vspace{2em}
+        \item{Vieron algunos problemas y patrones básicos.} 
+        
+    \end{enumerate}
+\end{frame}
+
+\section{Enunciado y motivación}
+
+\begin{frame}{Enunciado}
+
+\begin{enun}
+    Suponga que se tienen N procesos $P_i$, cada uno de los cuales ejecuta un conjunto de sentencias $a_i$
+y $b_i$ . Se los quiere sincronizar de manera tal que los $b_i$ se ejecuten \textbf{después de que se hayan ejecutado
+todos los $a_i$}.
+
+\end{enun}
+
+\pause
+
+\begin{algorithmic}
+
+    \Function{P}{i} \Comment{El proceso i, sin sincronización}
+        \State a(i)
+        \vspace{1em}
+        \State b(i)
+        \vspace{1em}
+        
+    \EndFunction
+\end{algorithmic}
+    
+
+\end{frame}
+
+\begin{frame}{Motivación}
+    \begin{itemize}
+    \item Me parece un problema interesante porque:
+        \begin{enumerate}
+            \vspace{1em}
+            \item Es un patrón clásico, conocido como \textbf{Barrera}.
+            \vspace{1em}
+            \item Aparece como subproblema de otros ejercicios.
+        \end{enumerate}
+    \vspace{2em}
+    \item En el problema vamos a trabajar:
+        \begin{enumerate}
+            \vspace{1em}
+            \item Mutexes.
+            \vspace{1em}
+            \item Semáforos.
+            \vspace{1em}
+            \item Maximizar el grado de concurrencia.
+        \end{enumerate}
+        
+    \end{itemize}
+\end{frame}
+
+\section{Resolución}
+\begin{frame}{Aproximándonos}
+    Primer idea: \pause Turnos! 
+    \pause 
+    \newline $a_1$ hasta $a_n$, luego $b_1$ hasta $b_n$.
+    Aplicación directa del \quotes{problema de los turnos}.
+    
+    \vspace{1em}
+    
+    \pause
+    \begin{algorithmic}
+    
+        \Function{P}{i} \Comment{Idea de la implementación}
+            \State sem\_a[i].wait()
+            
+            \vspace{0.5em}
+            \State a(i)
+            \vspace{0.5em}
+            \If{i < n} sem\_a[i+1].signal()
+            \Else
+            	\State sem\_b[1].signal()
+            \EndIf
+            \vspace{0.5em}
+            
+            \State sem\_b[i].wait()
+            
+            \vspace{0.5em}
+            \State b(i)
+            \vspace{0.5em}
+            
+            \State sem\_b[i+1].signal()
+        
+        \EndFunction
+        
+    \end{algorithmic}
+    
+    \pause
+\end{frame}
+
+\begin{frame}{Problemas}
+    Problema: Queremos la mayor \textbf{Concurrencia} posible. 
+    No queremos garantizar un orden de los $a_i$ ni de los $b_i$. 
+    
+    \vspace{2em}
+    
+    \pause
+    
+    Segunda idea: Contar cuantos ejecutaron a(i).
+\end{frame}
+
+\begin{frame}{¿Qué vamos a necesitar?}
+    \begin{enumerate}
+        \item La cantidad de procesos N.
+        \item contador = 0.
+        \item mutex\_contador = Mutex(1).
+        \item sem\_barrera = Semaforo(0).
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Implementando}
+    \begin{algorithmic}
+        \Function{P}{i}
+            \State a(i)
+            
+            \vspace{1em}
+            \uncover<2->{
+            \Wait[mutex\_contador]
+                \State contador++
+                \If {contador == N}
+                    \uncover<3->{
+                        \State sem\_barrera.signal()
+                    }
+                    
+                \EndIf
+            \Signal[mutex\_contador]
+            }
+            
+            \vspace{1em}
+            
+            \State sem\_barrera.wait()
+            
+            \vspace{1em}
+            
+            \State b(i)
+            
+        \EndFunction
+        
+        
+    \end{algorithmic}
+    
+    \uncover<4>{
+        \Large{Problema:}
+        \pause
+        \Large{Muchos procesos esperando, pero envíamos un solo signal.}
+    }
+
+\end{frame}
+
+\begin{frame}{Terminando la solución}
+    \begin{algorithmic}
+        \Function{P}{i}
+            \State a(i)
+            
+            \vspace{1em}
+            \Wait[mutex\_contador]
+                \State contador++
+                \If {contador == N}
+                    \uncover<2>{
+                    
+                        \For{i = 1 to N}
+                            \State sem\_barrera.signal()
+                        \EndFor
+                    }
+                    
+                \EndIf
+            \Signal[mutex\_contador]
+            
+            \vspace{1em}
+            
+            \State sem\_barrera.wait()
+            
+            \vspace{1em}
+            
+            \State b(i)
+            
+        \EndFunction
+        
+        
+    \end{algorithmic}
+
+\end{frame}
+
+
+\begin{frame}
+    \huge{¿Preguntas?}
+    \begin{center}
+        \includegraphics[scale=0.4]{img/question-mark.jpg}
+    \end{center}
+    \large{¡Muchas gracias!}
+\end{frame}
+
+\end{document}
