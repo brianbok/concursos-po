@@ -1,0 +1,135 @@
+\documentclass[pdf]{beamer}
+\newcommand{\quotes}[1]{``#1''}
+
+\mode<presentation>
+{
+
+  
+  \usetheme{Warsaw}
+  %\usetheme{Boadilla}
+  \useoutertheme{infolines}
+  \usecolortheme[RGB={28,13,151}]{structure}
+  \usetheme[height=7mm]{Rochester}
+  % or ...
+
+  \setbeamercovered{invisible}
+  % or whatever (possibly just delete it)
+  
+}
+
+\usepackage{verbatim} 
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+
+%\lstloadlanguages{C++}
+%lstnewenvironment{code}
+%	{%\lstset{	numbers=none, frame=lines, basicstyle=\small\ttfamily, }%
+%	 \csname lst@SetFirstLabel\endcsname}
+%	{\csname lst@SaveFirstLabel\endcsname}
+%\lstset{% general command to set parameter(s)
+%	language=C++, basicstyle=\footnotesize\ttfamily, keywordstyle=\slshape,
+%	emph=[1]{tipo,usa}, emphstyle={[1]\sffamily\bfseries},
+%	morekeywords={tint,forn,forsn},
+%	basewidth={0.47em,0.40em},
+%	columns=fixed, fontadjust, resetmargins, xrightmargin=5pt, xleftmargin=15pt,
+%	flexiblecolumns=false, tabsize=2, breaklines,	breakatwhitespace=false, extendedchars=true,
+%	numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=9pt,
+%	frame=l, framesep=3pt,
+%} % CAMBIADO
+
+\usepackage{multicol}
+
+\usepackage[spanish]{babel}
+% or whatever
+
+\usepackage[utf8]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+
+%\usepackage{enumitem} CAMBIADO
+%\usepackage{booktabs} CAMBIADO
+
+\newtheorem{enun}{Enunciado}
+\newtheorem{idea}{Idea importante}
+
+
+\title[Prueba de oposición] % (optional, use only with long paper titles)
+{Prueba de oposición - Algoritmos 2017}
+
+\author[Brian Bokser] % (optional, use only with lots of authors)
+{Brian Bokser}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+\institute[UBA-FCEN] % (optional, but mostly needed)
+{
+  Facultad de Ciencias Exactas y Naturales\\
+  Universidad de Buenos Aires
+}
+
+
+% Ac� se puede insertar el logo de la UBA
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+
+  \begin{frame}<beamer>{Contenidos}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+	
+}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+\section{Introducci\'on}
+
+\begin{frame}{Introducci\'on}
+    \begin{itemize}
+	\item Materia :  \emph{Algoritmos y Estructuras de Datos II}
+	\vspace{2em}
+	\item Práctica : \emph{Dividir y Conquistar}
+
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+    \item Materia :  \emph{Algoritmos y Estructuras de Datos II}
+    \vspace{2em}
+    \item Práctica : \emph{Dividir y Conquistar}
+
+    \end{itemize}
+
+\end{frame}
+
+\end{document}
